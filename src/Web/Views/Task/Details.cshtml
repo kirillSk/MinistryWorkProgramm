@@ -1,0 +1,86 @@
+﻿@using Domain
+@using Domain.Abstract
+@using Web.Services
+@model Domain.Task
+
+@{
+    ViewBag.TaskId = Model.Id;
+        
+    Layout = "ListItem.cshtml";
+}
+<fieldset style="width: 70%">
+    <legend>Просмотр задачи</legend>
+    <label>Заголовок</label>
+    <div class="input-control text" data-role="input-control">
+        <input name="Title" value="@Model.Title" type="text" placeholder="type text" disabled>
+        <button class="btn-clear" tabindex="-1" type="button"></button>
+    </div>
+    <label>Содержание</label>
+    <div class="input-control text" data-role="input-control" style="height: 100px">
+        <textarea style="width: 100%; height: 100px" name="Content" disabled>@Model.Content</textarea>
+    </div>
+
+    <label>Источник</label>
+    <div class="input-control text" data-role="input-control">
+        <input name="Source" value="@Model.Source" type="text" placeholder="type text" disabled>
+        <button class="btn-clear" tabindex="-1" type="button"></button>
+    </div>
+    <label>Срок исполнения</label>
+    <div class="input-control text" id="datepicker">
+        <input name="Deadline" value="@Model.Deadline.ToShortDateString()" type="text" disabled>
+        <button class="btn-date"></button>
+    </div>
+
+    <label>История и комментарии</label>
+    <div>
+        @foreach (ILog comment in Model.LogsAndHistory)
+        {
+            <div class="padding20">
+                <div class="grid fluid">
+                    <div class="row">
+                        <div class="span5 padding10">
+                            @comment.CreateAt.ToShortDateString() @comment.CreateAt.ToShortTimeString() <br /> @(((IEnumerable<Account>)ViewBag.Accounts).Single(x=>x.Id == comment.ActorId).GetNameAndRole())
+                        </div>
+                        <div class="span7 padding20">
+                            @comment.Text
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+        <div class="padding20">
+            <div class="grid fluid">
+                @using (Html.BeginForm("AddComment", "Task", FormMethod.Post, new { id = "AddCommentForm" }))
+                {
+                    <div class="row">
+                        <div class="span5 padding10">
+                            @DateTime.Now.ToShortDateString() <br /> @(((Account)ViewBag.CurrentAccount).GetNameAndRole())
+                        </div>
+                        <div class="span7 padding20">
+                            <textarea style="width: 100%; height: 50px" name="comment" placeholder="Ваш комментарий"></textarea>
+                        </div>
+                    </div>
+                    <input type="hidden" name="id" value="@Model.Id" />
+                    <div class="row">
+                        <div class="span3 offset9">
+                            <input type="submit" value="Добавить" class="button primary" />
+                        </div>
+                    </div>                        
+                }                    
+            </div>
+            <script>
+                $(function() {
+                    $('#AddCommentForm').submit(function() {
+                        var textarea = $(this).find('textarea');
+                        
+                        if (textarea.val() == '') {
+                            textarea.focus();
+                            return false;
+                        }
+                        return true;
+                    });
+                });
+            </script>
+        </div>
+    </div>
+</fieldset>

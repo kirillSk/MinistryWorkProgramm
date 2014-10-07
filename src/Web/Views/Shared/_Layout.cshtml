@@ -1,0 +1,99 @@
+﻿@using Domain
+@using Web.Services
+<!DOCTYPE html>
+<html>
+    <head>
+        <link rel="stylesheet" href="/css/metro-bootstrap.min.css">
+        <link rel="stylesheet" href="/css/iconFont.min.css" rel="stylesheet">
+        <link rel="stylesheet" href="/css/Site.css" rel="stylesheet">
+        <script src="/js/jquery/jquery.min.js"> </script>
+        <script src="/js/jquery/jquery.widget.min.js"> </script>
+        <script src="/js/metro/metro.min.js"> </script>
+        <script src="/js/load-metro.js"> </script>
+        <script src="../../js/metro-calendar.js"></script>
+        <script src="../../js/metro-datepicker.js"></script>
+        <title>Задачи министерства</title>
+    </head>
+    <body class="metro">
+        <div class="navbar">
+            <div class="navbar-content">
+                <a href="/" class="element"><span class="icon-user-3"></span> Задачи министерства <sup>0.1</sup></a>
+                <div class="no-tablet-portrait">
+
+                    <div class="element place-right">
+                        <a class="dropdown-toggle" href="#">@(((Account)ViewBag.CurrentAccount).GetNameAndRole())</a>
+                        <ul class="dropdown-menu place-right" data-role="dropdown">
+                            @*<li class="disabled"><a href="#" >Настройки</a></li>*@
+                            <li><a href="@Url.Action("LogOff", "Account")">Выход</a></li>
+                        </ul>
+                    </div>
+                    <span class="element-divider place-right"></span>
+                </div>
+            </div>
+        </div>
+
+        <div class="grid fluid">
+            <div class="row">
+                <div class="span3 padding20">
+                    <div class="padding20">
+                        <div>
+                            @if (ViewBag.AbilityToCreateTask)
+                            {
+                                <a href="@Url.Action("Create")" class="button success large">Создать задачу</a>
+                            }
+                        </div>
+                        <hr />
+                        <div>
+                            <div class="listview-outlook">
+                                <a class="list marked" href="@Url.Action("List", "Task")">
+                                    <div class="list-content">
+                                        <span class="list-title">Входящие</span>
+                                        <span class="list-remark">Новые задачи</span>
+                                    </div>
+                                </a>
+                                @*
+                                <a class="list" href="#">
+                                    <div class="list-content">
+                                        <span class="list-title">Вернулись</span>
+                                        <span class="list-remark">Вы работали с этими задачами</span>
+                                    </div>
+                                </a>
+                                <a class="list" href="#">
+                                    <div class="list-content">
+                                        <span class="list-title">На контроле</span>
+                                        <span class="list-remark">Задача не у Вас</span>
+                                    </div>
+                                </a>
+                                <a class="list" href="#">
+                                    <div class="list-content">
+                                        <span class="list-title">Закрытые</span>
+                                        <span class="list-remark">Архив</span>
+                                    </div>
+                                </a>
+*@
+                            </div>
+                        </div>
+            
+                    </div>
+               
+                </div>
+                <div class="span9 padding20">
+                    @RenderBody()
+                </div>
+            </div>
+        </div>
+        @if (ViewBag.Notification != null)
+        {
+            <script>
+                $(function() {
+                    $.Notify({
+                        caption: "Уведомление",
+                        content: "@ViewBag.Notification",
+                        timeout: 3000,
+                        style: {background: 'green', color: 'white'}
+                    });        
+                });
+            </script>            
+        }
+    </body>
+</html>

@@ -1,0 +1,80 @@
+﻿@{    
+    reserveDays = 1;
+}
+
+@functions {
+private int reserveDays;
+
+private string GetDeadlineDate()
+    {
+        DateTime deadlineDate = DateTime.Now.AddDays(reserveDays);
+        return String.Format("{0}-{1}-{2}", deadlineDate.Year, deadlineDate.Month, deadlineDate.Day);
+    }
+}
+
+@{
+    Layout = "ListItem.cshtml";
+}
+
+@using (@Html.BeginForm("Create", "Task", FormMethod.Post, new { id = "AddTaskForm" }))
+{
+    <fieldset style="width: 70%">
+        <legend>Создание задачи</legend>
+        <label>Заголовок*</label>
+        <div class="input-control text" data-role="input-control">
+            <input name="Title" type="text" placeholder="Дайте названию задачи (подготовить ответ, принять меры и т.д.)">
+            <button class="btn-clear" tabindex="-1" type="button"></button>
+        </div>
+        <label>Содержание*</label>
+        <div class="input-control text" data-role="input-control" style="height: 100px">
+            <textarea style="width: 100%; height: 100px" name="Content" placeholder="Подробно опишите суть задачи со всеми условиями"></textarea>
+        </div>
+
+        <label>Источник*</label>
+        <div class="input-control text" data-role="input-control">
+            <input name="Source" type="text" placeholder="Опишите источник поступления (администрация, гражданин, министерство, почта)">
+            <button class="btn-clear" tabindex="-1" type="button"></button>
+        </div>
+        <label>Срок исполнения*</label>
+        <div class="input-control text" id="datepicker">
+            <input name="Deadline" type="text">
+            <button class="btn-date"></button>
+        </div>
+
+        <label>Дополнительный комментарий</label>
+        <div class="input-control text" data-role="input-control" style="height: 100px">
+            <textarea style="width: 100%; height: 100px" name="AdditionalСomment" placeholder="При необходимости оставьте дополнительный коментарий"></textarea>
+        </div>
+ 
+        <script>
+            $("#datepicker").datepicker({
+                date: "@GetDeadlineDate()", // set init date
+                effect: "none", // none, slide, fade
+                position: "bottom", // top or bottom,
+                locale: 'ru', // 'ru' or 'en', default is $.Metro.currentLocale
+            });
+        </script>
+        <div class="text-right">
+            <input type="submit" class="button success" value="Создать">
+        </div>
+    </fieldset>        
+    <script>
+        $(function () {
+            debugger;
+            $('#AddTaskForm').submit(function () {
+                var formEl = $(this);
+                
+                var validate = function(name) {
+                    var el = formEl.find('[name=' + name + ']');
+                    if (el.val() == '') {
+                        el.focus();
+                        return false;
+                    }
+                    return true;
+                };
+                debugger;
+                return validate('Title') && validate('Content') && validate('Source');
+            });
+        });
+    </script>
+}

@@ -1,0 +1,46 @@
+﻿@{
+    Layout = null;
+}
+<!DOCTYPE html>
+<html>
+    <head>
+        <link rel="stylesheet" href="/css/metro-bootstrap.min.css">
+        <link rel="stylesheet" href="/css/iconFont.min.css" rel="stylesheet">
+        <link rel="stylesheet" href="/css/Site.css" rel="stylesheet">
+        <script src="/js/jquery/jquery.min.js"> </script>
+        <script src="/js/jquery/jquery.widget.min.js"> </script>
+        <script src="/js/metro/metro.min.js"> </script>
+        <script src="/js/load-metro.js"> </script>
+        <title>Задачи министерства - Вход</title>
+    </head>
+    <body class="metro">
+        <div class="container" style="padding-top: 270px;">
+            <div class="grid fluid">
+                <div class="row">
+                    <div class="span4 offset4">
+                        @using (Html.BeginForm("LogOn", "Account", FormMethod.Post))
+                        {
+                            <fieldset>
+                                <legend>Министерство</legend>
+                                <label>Логин</label>
+                                <div class="input-control text" data-role="input-control">
+                                    <input name="login" type="text" placeholder="Введите логин">
+                                    <button class="btn-clear" tabindex="-1" type="button"></button>
+                                </div>
+                                <label>Пароль</label>
+                                <div class="input-control password" data-role="input-control">
+                                    <input name="password" type="password" placeholder="Введите пароль" autofocus="">
+                                    <button class="btn-reveal" tabindex="-1" type="button"></button>
+                                </div>
+                                <div class="fg-red">
+                                    @ViewBag.Error
+                                </div>
+                                <input type="submit" value="Войти">
+                            </fieldset>                    
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>

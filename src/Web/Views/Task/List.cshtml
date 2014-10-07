@@ -1,0 +1,57 @@
+﻿@model IEnumerable<Domain.Task>
+
+@if (Model.Any())
+{
+    <table id="taskTable" class="table hovered">
+        <thead>
+            <tr>
+                <th class="text-left">Заголовок</th>
+                <th class="text-left">Содержание</th>
+                <th class="text-left">Источник</th>
+                <th class="text-left">Дата создания</th>
+                <th class="text-left">Срок исполнения</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            @foreach (var task in Model)
+            {
+                <tr data-task-id="@task.Id">
+                    <td>@task.Title</td>
+                    <td class="right">@task.Content</td>
+                    <td class="right">@task.Source</td>
+                    <td class="right">@task.CreateAt.ToShortDateString()</td>
+                    <td class="right">@task.Deadline.ToShortDateString()</td>
+                </tr>
+            }
+        </tbody>
+    
+        <tfoot>
+        </tfoot>
+    </table>
+
+    <script>
+        $(function() {
+            $('#taskTable tr').click(function() {
+                var taskId = $(this).attr('data-task-id');
+                location = '@Url.Action("Details", "Task")?id=' + taskId;
+            });
+        });
+    </script>
+    <style>
+        #taskTable tr[data-task-id] {
+            cursor: pointer;
+        }
+    </style>
+
+}
+else
+{
+    <div class="text-center"><h1>Ура, задач нет!!!</h1></div>
+}
+
+<script>
+    $(function() {
+        
+    });
+</script>
