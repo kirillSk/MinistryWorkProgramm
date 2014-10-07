@@ -1,7 +1,7 @@
 MinistryWorkProgramm
 ====================
 
-Example of use C#, Asp.net MVC, RavenDb, Bootstrap, Metro UI
+Example of use C#, Asp.net MVC, RavenDb, Bootstrap, Metro UI, jQuery, Razor
 
 Проект выполнен в соответсвии с заданием:
 
