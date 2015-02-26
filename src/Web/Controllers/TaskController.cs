@@ -52,21 +52,29 @@ namespace Web.Controllers
         [HttpPost]
         public ActionResult Create(TaskModel model)
         {
-            using (var session = MvcApplication.Store.OpenSession())
+            try
             {
-                var contextAccount = ContextAccountProvider.GetContextAccount(session);
+                using (var session = MvcApplication.Store.OpenSession())
+                {
+                    var contextAccount = ContextAccountProvider.GetContextAccount(session);
 
-                var task = new Task(model.Title, model.Content, model.Source, DateTime.Parse(model.Deadline), RolesThatHaveTheAbilityToCreateTasks.GetStateForCreateTask(contextAccount.Role));
+                    var task = new Task(model.Title, model.Content, model.Source, DateTime.Parse(model.Deadline), RolesThatHaveTheAbilityToCreateTasks.GetStateForCreateTask(contextAccount.Role));
 
-                task.AddСomment(new Log("Задача создана", contextAccount));
+                    task.AddСomment(new Log("Задача создана", contextAccount));
 
-                if (!string.IsNullOrWhiteSpace(model.AdditionalСomment))
-                    task.AddСomment(new Comment(model.AdditionalСomment, contextAccount));
+                    if (!string.IsNullOrWhiteSpace(model.AdditionalСomment))
+                        task.AddСomment(new Comment(model.AdditionalСomment, contextAccount));
 
-                session.Store(task);
-                session.SaveChanges();
-                return RedirectToAction("List", new { notification = string.Format("Задача \"{0}\" создана!", model.Title) });
+                    session.Store(task);
+                    session.SaveChanges();
+                    return RedirectToAction("List", new { notification = string.Format("Задача \"{0}\" создана!", model.Title) });
 
+                }
+            }
+            catch (Exception ex)
+            {
+
+                return View("Error", ex);
             }
         }
 
