@@ -35,7 +35,7 @@ namespace Web
             RegisterGlobalFilters(GlobalFilters.Filters);
             RegisterRoutes(RouteTable.Routes);
 
-            Store = new DocumentStore { ConnectionStringName = "RavenDB" };
+            Store = new DocumentStore { ConnectionStringName = "RAVENHQ_CONNECTION_STRING" };
             Store.Initialize();
         }
     }
