@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Web.Mvc;
 using System.Web.Routing;
@@ -58,7 +59,7 @@ namespace Web.Controllers
                 {
                     var contextAccount = ContextAccountProvider.GetContextAccount(session);
 
-                    var task = new Task(model.Title, model.Content, model.Source, DateTime.Parse(model.Deadline), RolesThatHaveTheAbilityToCreateTasks.GetStateForCreateTask(contextAccount.Role));
+                    var task = new Task(model.Title, model.Content, model.Source, DateTime.Parse(model.Deadline, null, DateTimeStyles.RoundtripKind), RolesThatHaveTheAbilityToCreateTasks.GetStateForCreateTask(contextAccount.Role));
 
                     task.AddСomment(new Log("Задача создана", contextAccount));
 
